@@ -3,7 +3,7 @@ html(lang="zh-CN")
     head
         include head
 
-    body
+    body(data-theme=`${theme.themeStyle}`)
         div#stage.container
             div.row
                 include sidebar
@@ -20,4 +20,3 @@ html(lang="zh-CN")
         script(src= url_for('js/jquery.appear.js'))
         script(src= url_for('js/google-analytics.js'))
         script(src= url_for('js/typography.js'))
-

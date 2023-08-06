@@ -22,8 +22,7 @@ link(rel="short icon", href="images/favicon.png",type="image/x-icon")
 link(rel="stylesheet", href= url_for('css/bootstrap.min.css'))
 link(rel="stylesheet", href= url_for('css/font-awesome.min.css'))
 //- link(rel="stylesheet", href= url_for('css/typography-custom-font.css'))
-if theme.themeStyle == "light"
-    link(rel="stylesheet", href= url_for('css/style.css'))
-if theme.themeStyle == "dark"
-    link(rel="stylesheet", href= url_for('css/style-dark.css'))
+link(rel="preload" as="style" href= url_for('css/style-light.css'))
+link(rel="preload" as="style" href= url_for('css/style-dark.css'))
+link(rel="stylesheet" blocking="render" href= url_for(`css/style-${theme.fallbackThemeStyle}.css`) id="theme-style")
 link(rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml")

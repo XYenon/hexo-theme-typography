@@ -22,4 +22,5 @@ showCategories: true
 showTags: true
 
 # Color scheme
-themeStyle: light # light/dark
+themeStyle: auto # auto/light/dark
+fallbackThemeStyle: light # light/dark
