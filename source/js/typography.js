@@ -27,20 +27,53 @@ function updateSidebar() {
         $('#main-container').addClass('col-sm-9');
     }
 }
-function switchTheme(theme) {
+function applyTheme(theme) {
     const oldStylePath = $('#theme-style').attr('href');
     const newStylePath = oldStylePath.replace(/\/style-.+?\.css/, `/style-${theme}.css`);
     if (oldStylePath !== newStylePath) {
         $('#theme-style').attr('href', newStylePath);
     }
 }
+function switchTheme(theme) {
+    window.localStorage.setItem('theme', theme);
+    $('body').attr('data-theme', theme);
+    const icon = theme === 'auto' ? 'fa-circle-half-stroke' : (theme === 'light' ? 'fa-sun' : 'fa-moon');
+    const themeSwitch = $('#theme-switch i');
+    themeSwitch.removeClass();
+    themeSwitch.addClass(`fa ${icon}`);
+    themeSwitch.attr('aria-label', `Theme: ${theme}`);
+    if (theme === 'auto') {
+        if (window.matchMedia) {
+            const prefersColorSchemeMqList = window.matchMedia('(prefers-color-scheme: dark)');
+            const theme = prefersColorSchemeMqList.matches ? 'dark' : 'light';
+            applyTheme(theme);
+        }
+    } else {
+        applyTheme(theme);
+    }
+}
+function toggleTheme() {
+    const themes = ['auto', 'light', 'dark'];
+    const currentTheme = $('body').attr('data-theme');
+    const currentThemeIndex = themes.indexOf(currentTheme);
+    const newThemeIndex = (currentThemeIndex + 1) % themes.length;
+    const newTheme = themes[newThemeIndex];
+    switchTheme(newTheme);
+}
 $(document).ready(function () {
-    if (window.matchMedia && $('body').attr('data-theme') === 'auto') {
-        const newColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        switchTheme(newColorScheme);
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    let localTheme = window.localStorage.getItem('theme');
+    if (localTheme === null) {
+        localTheme = $('body').attr('data-theme');
+    }
+    switchTheme(localTheme);
+    if (window.matchMedia) {
+        const prefersColorSchemeMqList = window.matchMedia('(prefers-color-scheme: dark)');
+        prefersColorSchemeMqList.addEventListener('change', event => {
+            if ($('body').attr('data-theme') !== 'auto') {
+                return;
+            }
             const newColorScheme = event.matches ? 'dark' : 'light';
-            switchTheme(newColorScheme);
+            applyTheme(newColorScheme);
         });
     }
 

@@ -210,7 +210,7 @@ body {
   padding: 60px 0;
   text-align: left;
   position: fixed;
-  bottom: 20px;
+  bottom: -5px;
 }
 
 .site-title-links ul {
@@ -324,6 +324,36 @@ a {
       @if lightness($foregroundColor) >50 {
         color: darken($foregroundColor, 10%) !important;
       } @else {
+        color: lighten($foregroundColor, 10%) !important;
+      }
+    }
+  }
+}
+
+.theme-switch {
+  a {
+    border-bottom: solid transparent 2px;
+
+    &:hover {
+      @if lightness($foregroundColor)>50 {
+        color: darken($foregroundColor, 10%) !important;
+      }
+
+      @else {
+        color: lighten($foregroundColor, 10%) !important;
+      }
+
+      background-color: transparent !important;
+      text-decoration: none;
+      border-bottom: solid rgba(0, 0, 0, 0) 2px;
+    }
+
+    &:focus {
+      @if lightness($foregroundColor)>50 {
+        color: darken($foregroundColor, 10%) !important;
+      }
+
+      @else {
         color: lighten($foregroundColor, 10%) !important;
       }
     }
